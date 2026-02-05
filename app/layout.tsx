@@ -24,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="vi" className="light" style={{ scrollBehavior: 'smooth' }}> 
       <head>
+        <meta name="google-site-verification" content="bp1iIer8iGsWFF0Aohc-hulC5NdvRulB6740gERZC08" />
         {/* Link tải bộ icon Material Symbols */}
         <link 
           rel="stylesheet" 
