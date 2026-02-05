@@ -7,98 +7,120 @@ const CORE_VALUES = [
   {
     icon: "visibility",
     title: "Kiểm tra công khai",
-    desc: "Mọi lỗi máy tính đều được chỉ rõ trực tiếp trước mặt khách hàng.",
+    desc: "Mọi lỗi máy tính, laptop đều được kỹ thuật viên chỉ rõ trực tiếp trước mặt khách hàng, đảm bảo tính minh bạch tuyệt đối.",
   },
   {
     icon: "receipt_long",
-    title: "Báo giá trước khi làm",
-    desc: "Không có chi phí ẩn. Bạn biết chính xác số tiền cần trả trước khi thợ đụng máy.",
+    title: "Báo giá niêm yết",
+    desc: "FixPC cam kết báo giá trước khi sửa. Không có chi phí ẩn, khách hàng đồng ý mới tiến hành sửa chữa.",
   },
   {
     icon: "thumb_up",
-    title: "Chỉ sửa khi được duyệt",
-    desc: "Tuyệt đối không tự ý thay linh kiện hay phát sinh dịch vụ khi chưa hỏi ý kiến khách.",
+    title: "Chính sách bảo hành",
+    desc: "Hỗ trợ bảo hành tận nơi nhanh chóng từ 3-12 tháng cho linh kiện thay thế và dịch vụ cài đặt.",
   },
 ];
 
 const STATS = [
   { value: "5+", label: "Năm kinh nghiệm" },
-  { value: "2k+", label: "Máy đã sửa" },
+  { value: "2k+", label: "Khách hàng tin tưởng" },
   { value: "100%", label: "Linh kiện chính hãng" },
-  { value: "24h", label: "Xử lý nhanh gọn" },
+  { value: "30p", label: "Có mặt nhanh chóng" },
 ];
 
 const CUSTOMER_TYPES = [
   {
     icon: "school",
     title: "Học sinh & Sinh viên",
-    desc: "Cần máy chạy mượt để làm đồ án, chơi game giải trí với chi phí tối ưu.",
+    desc: "Tối ưu chi phí sửa laptop, cài Win bản quyền để phục vụ học tập và đồ án.",
   },
   {
     icon: "laptop_mac",
     title: "Dân văn phòng",
-    desc: "Cần xử lý lỗi phần mềm nhanh để không trễ deadline, bảo mật dữ liệu.",
+    desc: "Xử lý nhanh các lỗi phần mềm văn phòng, bảo mật dữ liệu tuyệt đối cho doanh nghiệp.",
   },
   {
     icon: "sentiment_satisfied",
-    title: "Người mới dùng Tech",
-    desc: "Sợ bị 'chém' giá, cần một người thợ nhiệt tình giải thích dễ hiểu nhất.",
+    title: "Khách hàng cá nhân",
+    desc: "Giải thích kỹ thuật dễ hiểu, báo giá trung thực, không lo bị 'chém' giá khi không rành về máy.",
   },
 ];
 
 export default function ViSaoChonChungToiPage() {
   return (
     <main className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
+      {/* 1. SCHEMA MARKUP - SEO cho Local Business */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            "name": "Vì sao chọn FixPC Hà Đông - Dịch vụ sửa máy tính uy tín",
+            "description": "Tìm hiểu lý do FixPC là địa chỉ sửa máy tính, laptop hàng đầu tại Hà Đông với cam kết minh bạch, giá rẻ và thợ tay nghề cao.",
+            "publisher": {
+              "@type": "LocalBusiness",
+              "name": "FixPC Hà Đông",
+              "image": "https://fixpc.vercel.app/og-image.jpg"
+            }
+          })
+        }}
+      />
+
       <div className="max-w-[1200px] mx-auto px-4 md:px-6">
         
-        {/* HERO SECTION */}
+        {/* HERO SECTION - Tối ưu H1 chứa từ khóa chính */}
         <section className="py-12 md:py-20 flex flex-col md:flex-row items-center gap-10">
-          <div className="flex-1 space-y-8">
+          <header className="flex-1 space-y-8">
             <div className="space-y-4">
-              <h1 className="text-[#0d121b] dark:text-white text-4xl md:text-6xl font-black leading-tight tracking-tight">
-                Vì Sao Chọn <span className="text-primary">FixPC Hà Đông?</span>
+              <span className="text-primary font-bold tracking-widest uppercase text-sm">Về FixPC Hà Đông</span>
+              <h1 className="text-[#0d121b] dark:text-white text-4xl md:text-6xl font-black leading-[1.1] tracking-tight">
+                Vì Sao Nên <span className="text-primary">Sửa Máy Tính</span> Tại FixPC Hà Đông?
               </h1>
               <h2 className="text-[#4c669a] dark:text-gray-400 text-lg md:text-xl font-medium leading-relaxed italic border-l-4 border-primary pl-4 py-1">
-                "Máy tính hỏng là đã mệt, còn mệt hơn nếu không biết mình đang bị sửa gì... FixPC Hà Đông sinh ra để giải quyết đúng nỗi lo đó."
+                "Máy tính hỏng đã mệt, tìm thợ uy tín còn mệt hơn. FixPC ra đời để mang lại sự minh bạch tuyệt đối cho người dùng tại quận Hà Đông."
               </h2>
             </div>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/dat-lich" className="flex-1 md:flex-none px-8 py-4 bg-primary text-white rounded-xl font-bold text-center shadow-lg shadow-primary/20 hover:bg-blue-700 transition-all active:scale-95">
-                Đặt lịch sửa chữa
+            <div className="flex flex-wrap gap-4 pt-4">
+              <Link href="/dat-lich" title="Đặt lịch kỹ thuật viên tới nhà" className="flex-1 md:flex-none px-8 py-4 bg-primary text-white rounded-xl font-bold text-center shadow-lg shadow-primary/20 hover:bg-blue-700 transition-all active:scale-95">
+                Đặt lịch sửa ngay
               </Link>
-              <Link href="/bang-gia" className="flex-1 md:flex-none px-8 py-4 bg-primary/10 text-primary border border-primary/20 rounded-xl font-bold text-center hover:bg-primary/20 transition-all">
-                Xem bảng giá
+              <Link href="/bang-gia" title="Xem bảng giá dịch vụ sửa chữa" className="flex-1 md:flex-none px-8 py-4 bg-primary/10 text-primary border border-primary/20 rounded-xl font-bold text-center hover:bg-primary/20 transition-all">
+                Xem báo giá
               </Link>
             </div>
-          </div>
+          </header>
           <div className="flex-1 w-full flex justify-center relative">
-            {/* Trang trí hình ảnh từ file html */}
             <div className="aspect-square bg-primary/5 rounded-full absolute -z-10 w-64 h-64 blur-3xl animate-pulse"></div>
             <div className="p-4 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] border dark:border-slate-800 shadow-2xl">
-                <div className="w-full h-full min-h-[300px] flex items-center justify-center bg-white dark:bg-slate-800 rounded-[2rem]">
-                    <span className="material-symbols-outlined text-9xl text-primary/20">reproducibility</span>
+                <div className="w-full h-full min-h-[300px] flex items-center justify-center bg-white dark:bg-slate-800 rounded-[2rem] overflow-hidden">
+                    <img 
+                      src="https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=1000&auto=format&fit=crop" 
+                      alt="Kỹ thuật viên sửa chữa máy tính chuyên nghiệp tại Hà Đông" 
+                      className="w-full h-full object-cover opacity-80"
+                    />
                 </div>
             </div>
           </div>
         </section>
 
-        {/* CORE COMMITMENTS */}
+        {/* CORE COMMITMENTS - Tối ưu Semantic HTML */}
         <section className="py-16">
           <div className="text-center space-y-4 mb-12">
-            <h3 className="text-primary text-sm font-bold tracking-widest uppercase">Cam kết cốt lõi</h3>
-            <h2 className="text-[#0d121b] dark:text-white text-3xl md:text-4xl font-black tracking-tight">Minh bạch – Điểm ăn tiền số 1</h2>
-            <p className="text-[#4c669a] dark:text-gray-400 max-w-2xl mx-auto text-lg">Chúng tôi cam kết 3 trụ cột cốt lõi để khách hàng luôn an tâm tuyệt đối.</p>
+            <h2 className="text-primary text-sm font-bold tracking-widest uppercase">Trải nghiệm dịch vụ</h2>
+            <h3 className="text-[#0d121b] dark:text-white text-3xl md:text-4xl font-black tracking-tight">Giá trị làm nên thương hiệu FixPC</h3>
+            <p className="text-[#4c669a] dark:text-gray-400 max-w-2xl mx-auto text-lg italic">"Nói thật - Làm thật - Giá thật"</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {CORE_VALUES.map((item, idx) => (
-              <div key={idx} className="p-8 rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <article key={idx} className="p-8 rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <div className="text-primary bg-primary/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6">
-                  <span className="material-symbols-outlined text-3xl">{item.icon}</span>
+                  <span className="material-symbols-outlined text-3xl" aria-hidden="true">{item.icon}</span>
                 </div>
                 <h4 className="text-xl font-bold mb-3 dark:text-white">{item.title}</h4>
                 <p className="text-[#4c669a] dark:text-gray-400 leading-relaxed">{item.desc}</p>
-              </div>
+              </article>
             ))}
           </div>
         </section>
@@ -107,27 +129,27 @@ export default function ViSaoChonChungToiPage() {
         <section className="py-16 bg-slate-50 dark:bg-slate-900/50 rounded-[3rem] px-8 md:px-12 my-10 border dark:border-slate-800">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h2 className="text-3xl font-bold dark:text-white">Chuyên môn thật - Tối ưu thật</h2>
+              <h2 className="text-3xl font-bold dark:text-white underline decoration-primary/30 underline-offset-8">Chuyên môn giỏi - Linh kiện chuẩn</h2>
               <p className="text-[#4c669a] dark:text-gray-400 text-lg leading-relaxed">
-                Chúng tôi không cố bán linh kiện đắt nhất, chúng tôi tìm giải pháp phù hợp nhất. Từ Gaming gear hầm hố đến máy văn phòng bền bỉ.
+                Chúng tôi không cố bán linh kiện đắt tiền nhất, chúng tôi tìm giải pháp <strong>tối ưu hiệu năng trên giá thành</strong> nhất cho bạn. Phục vụ đa dạng nhu cầu:
               </p>
               <ul className="space-y-4">
                 {[
-                  { icon: "sports_esports", label: "Gaming", text: "Tối ưu FPS, tản nhiệt và hiệu năng." },
-                  { icon: "work", label: "Văn phòng", text: "Độ ổn định tuyệt đối và bảo mật dữ liệu." },
-                  { icon: "school", label: "Sinh viên", text: "Giải pháp tiết kiệm nhưng hiệu quả lâu dài." }
+                  { icon: "sports_esports", label: "Gaming", text: "Tối ưu FPS, vệ sinh tản nhiệt VGA/CPU chuyên sâu." },
+                  { icon: "work", label: "Văn phòng", text: "Lắp đặt SSD, cài Win ổn định và bảo mật dữ liệu." },
+                  { icon: "school", label: "Đồ họa", text: "Nâng cấp RAM, tối ưu phần mềm Adobe, AutoCad." }
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-4 dark:text-white group">
                     <span className="material-symbols-outlined text-primary group-hover:rotate-12 transition-transform">{item.icon}</span>
-                    <p><span className="font-bold">{item.label}:</span> {item.text}</p>
+                    <p><span className="font-bold text-slate-700 dark:text-slate-200">{item.label}:</span> {item.text}</p>
                   </li>
                 ))}
               </ul>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {STATS.map((stat, i) => (
-                <div key={i} className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg text-center border-t-4 border-primary">
-                  <h4 className="text-4xl font-black text-primary mb-1">{stat.value}</h4>
+                <div key={i} className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg text-center border-t-4 border-primary transition-transform hover:scale-105">
+                  <p className="text-4xl font-black text-primary mb-1">{stat.value}</p>
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{stat.label}</p>
                 </div>
               ))}
@@ -135,69 +157,70 @@ export default function ViSaoChonChungToiPage() {
           </div>
         </section>
 
-        {/* MAP SECTION */}
+        {/* MAP SECTION - SEO Local */}
         <section className="py-16 text-center">
           <div className="mb-10">
-            <h2 className="text-primary text-sm font-bold uppercase mb-2">Khu vực phục vụ</h2>
-            <h3 className="text-3xl font-bold dark:text-white mb-4">FixPC - Người hàng xóm Hà Đông</h3>
+            <h2 className="text-primary text-sm font-bold uppercase mb-2">Phạm vi hoạt động</h2>
+            <h3 className="text-3xl font-bold dark:text-white mb-4">Sửa máy tính tận nơi khắp Quận Hà Đông</h3>
+            <p className="text-[#4c669a] dark:text-gray-400">Có mặt nhanh sau 20-30 phút tại: Văn Quán, Mộ Lao, La Khê, Xa La, Dương Nội, Yên Nghĩa...</p>
           </div>
           <div className="rounded-[2.5rem] overflow-hidden h-[400px] relative shadow-2xl group border-4 border-white dark:border-slate-800">
              <img 
                src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=1000" 
-               alt="Ha Dong Area" 
+               alt="Bản đồ khu vực quận Hà Đông - Nơi FixPC phục vụ sửa máy tính tận nhà" 
                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
              />
-             <div className="absolute inset-0 bg-primary/10"></div>
+             <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-all"></div>
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white px-8 py-4 rounded-full flex items-center gap-2 shadow-2xl z-10">
                <span className="material-symbols-outlined animate-bounce">location_on</span>
-               <span className="font-bold">Hỗ trợ nhanh tại Hà Đông</span>
+               <span className="font-bold">Đội ngũ thợ trực tại Hà Đông</span>
              </div>
           </div>
         </section>
 
         {/* TARGET USERS */}
-        <section className="py-16 bg-primary/5 rounded-[3rem] px-8 mb-16">
-           <h2 className="text-2xl md:text-3xl font-black text-center mb-12 dark:text-white italic">Dịch vụ này dành cho bạn nếu bạn là...</h2>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {CUSTOMER_TYPES.map((type, i) => (
-                <div key={i} className="flex flex-col items-center text-center">
-                   <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-md mb-6">
+        <section className="py-16 bg-primary/5 rounded-[3rem] px-8 mb-16 border border-primary/10">
+            <h2 className="text-2xl md:text-3xl font-black text-center mb-12 dark:text-white italic">"Chúng tôi thấu hiểu nỗi lo của bạn"</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+               {CUSTOMER_TYPES.map((type, i) => (
+                <div key={i} className="flex flex-col items-center text-center group">
+                   <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-md mb-6 group-hover:scale-110 transition-transform">
                       <span className="material-symbols-outlined text-primary text-3xl">{type.icon}</span>
                    </div>
                    <h4 className="font-bold text-lg mb-2 dark:text-white">{type.title}</h4>
-                   <p className="text-sm text-[#4c669a] dark:text-gray-400">{type.desc}</p>
+                   <p className="text-sm text-[#4c669a] dark:text-gray-400 leading-relaxed">{type.desc}</p>
                 </div>
               ))}
-           </div>
+            </div>
         </section>
 
         {/* 4 COMMITMENTS & CTA */}
         <section className="py-20 border-t dark:border-slate-800">
           <div className="max-w-4xl mx-auto bg-white dark:bg-slate-900 p-10 md:p-16 rounded-[3rem] shadow-2xl border border-primary/10">
-            <h2 className="text-3xl font-black text-center mb-10 dark:text-white underline decoration-primary decoration-4 underline-offset-8">4 Cam kết Vàng từ FixPC</h2>
+            <h2 className="text-3xl font-black text-center mb-10 dark:text-white underline decoration-primary decoration-4 underline-offset-8 uppercase">Cam kết Vàng từ FixPC</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
               {[
-                "Bảo hành dài hạn từ 3-12 tháng.",
-                "Hoàn tiền 100% nếu không hài lòng.",
-                "Tư vấn nâng cấp đúng nhu cầu.",
-                "Hỗ trợ kỹ thuật online miễn phí trọn đời."
+                "Bảo hành tận nhà từ 3-12 tháng.",
+                "Hoàn tiền 100% nếu sửa không đạt yêu cầu.",
+                "Linh kiện thay thế chính hãng 100%.",
+                "Hỗ trợ cài đặt phần mềm từ xa miễn phí."
               ].map((text, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <span className="material-symbols-outlined text-green-500 font-bold">check_circle</span>
+                  <span className="material-symbols-outlined text-green-500 font-bold" aria-hidden="true">check_circle</span>
                   <p className="font-medium text-[#0d121b] dark:text-slate-200">{text}</p>
                 </div>
               ))}
             </div>
             <div className="text-center space-y-8">
-               <p className="text-lg font-bold text-primary animate-pulse italic">Bạn đã sẵn sàng hồi sinh chiếc máy tính của mình?</p>
-               <div className="flex flex-wrap justify-center gap-4">
-                  <button className="bg-primary hover:bg-blue-700 text-white font-black py-4 px-10 rounded-2xl transition-all shadow-lg active:scale-95">
-                    ĐẶT LỊCH SỬA CHỮA NGAY
-                  </button>
-                  <button className="bg-white dark:bg-slate-800 border-2 border-primary text-primary hover:bg-primary/5 font-black py-4 px-10 rounded-2xl transition-all">
-                    NHẬN TƯ VẤN MIỄN PHÍ
-                  </button>
-               </div>
+                <p className="text-lg font-bold text-primary animate-pulse italic">Cần tư vấn ngay? Đừng ngần ngại liên hệ thợ kỹ thuật!</p>
+                <div className="flex flex-wrap justify-center gap-4">
+                   <Link href="/dat-lich" className="bg-primary hover:bg-blue-700 text-white font-black py-5 px-10 rounded-2xl transition-all shadow-lg active:scale-95 block">
+                     ĐẶT LỊCH SỬA CHỮA NGAY
+                   </Link>
+                   <a href="tel:0355193008" className="bg-white dark:bg-slate-800 border-2 border-primary text-primary hover:bg-primary/5 font-black py-5 px-10 rounded-2xl transition-all block">
+                     GỌI: 0355.193.008
+                   </a>
+                </div>
             </div>
           </div>
         </section>
