@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
+/* Định nghĩa các biến màu và font theo code.html */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background-light: #f8fafc;
+  --background-dark: #0f172a;
+  --primary: #135bec;
+  --secondary: #0ea5e9;
+  
+  /* Màu mặc định cho body */
+  --background: var(--background-light);
+  --foreground: #0f172a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Khai báo màu để dùng class text-primary, bg-primary... */
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-background-light: var(--background-light);
+  --color-background-dark: var(--background-dark);
+  
+  /* Khai báo font-display như trong tailwind.config của file mẫu */
+  --font-display: var(--font-space-grotesk), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--background-dark);
+    --foreground: #f1f5f9;
   }
+}
+
+/* Cấu hình icon mặc định như trong thẻ <style> của code.html */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  line-height: 1;
+  word-wrap: normal;
+  white-space: nowrap;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-display); /* Sử dụng Space Grotesk làm font chính */
+  transition-property: color, background-color;
+  transition-duration: 200ms;
+}
+
+/* Gradient background dùng cho các nút hoặc trang trí */
+.gradient-bg {
+  background: linear-gradient(135deg, #135bec 0%, #0ea5e9 100%);
 }
