@@ -32,19 +32,25 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
   setIsSubmitting(true);
   
-  // 2. Chuẩn bị dữ liệu gửi đi
+  // 2. Xử lý logic Địa chỉ động
+  // Nếu là 'tận nơi' thì lấy từ input 'address', nếu 'tại cửa hàng' thì gán mặc định
+  const finalAddress = serviceType === "tận nơi" 
+    ? (formData.get("address") as string) 
+    : "Khách mang máy đến cửa hàng";
+
+  // 3. Chuẩn bị dữ liệu gửi đi (Lấy từ state và form)
   const payload = {
     name: formData.get("name"),
     phone: phone,
-    problem: formData.get("problem"),
-    address: "Khách hàng mang máy đến",
-    serviceType: "tận nơi",  
+    problem: formData.get("problem") || selectedService, // Lấy từ textarea hoặc tên Combo
+    address: finalAddress,                               // Dữ liệu động
+    serviceType: serviceType,                           // Dữ liệu động từ State
     status: "pending",
     createdAt: new Date(),
   };
 
   try {
-    const res = await fetch("/api/booking", { // Đường dẫn API của bạn
+    const res = await fetch("/api/booking", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -52,7 +58,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     if (res.ok) {
       alert("Đặt lịch thành công! Kỹ thuật viên sẽ gọi cho bạn ngay.");
-      (e.target as HTMLFormElement).reset(); // Xóa sạch form
+      setIsModalOpen(false); // Đóng modal sau khi thành công
+      (e.target as HTMLFormElement).reset(); 
     } else {
       alert("Có lỗi xảy ra, vui lòng thử lại.");
     }
