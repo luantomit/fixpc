@@ -35,16 +35,16 @@ export default function Footer() {
             <h4 className="text-slate-900 dark:text-white font-bold mb-6">Liên kết</h4>
             <ul className="space-y-4 text-sm text-slate-500">
               <li>
-                <Link href="#" className="hover:text-primary transition-colors">Về chúng tôi</Link>
+                <Link href="/vi-sao-chon-chung-toi" className="hover:text-primary transition-colors">Về chúng tôi</Link>
               </li>
               <li>
-                <Link href="#services" className="hover:text-primary transition-colors">Dịch vụ sửa chữa</Link>
+                <Link href="/dich-vu" className="hover:text-primary transition-colors">Dịch vụ sửa chữa</Link>
               </li>
               <li>
                 <Link href="#" className="hover:text-primary transition-colors">Build PC Gaming</Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-primary transition-colors">Chính sách bảo hành</Link>
+                <Link href="/bao-hanh" className="hover:text-primary transition-colors">Chính sách bảo hành</Link>
               </li>
             </ul>
           </div>
@@ -57,7 +57,7 @@ export default function Footer() {
                 <span className="material-symbols-outlined text-primary text-lg notranslate">location_on</span>
                 <div>
                   <p className="font-bold text-slate-700 dark:text-slate-300">Cơ sở Hà Đông:</p>
-                  <p>123 Trần Phú, Hà Đông, Hà Nội</p>
+                  <p>Số 61,Phú Lương, Hà Đông, Hà Nội</p>
                   <a 
                     className="text-primary hover:underline text-xs mt-1 inline-block" 
                     href="https://maps.google.com" 
@@ -70,7 +70,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-primary text-lg notranslate">call</span>
-                <a href="tel:0900000000" className="hover:text-primary">0900.000.000</a>
+                <a href="tel:0355193008" className="hover:text-primary">0355193008</a>
               </li>
               <li className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-primary text-lg notranslate">schedule</span>
