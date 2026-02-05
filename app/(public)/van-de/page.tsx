@@ -49,10 +49,13 @@ function VanDe() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const phone = formData.get("phone") as string;
+    const phone = (formData.get("phone") as string).trim(); // Loại bỏ khoảng trắng
 
+    // 1. Validate SĐT chặt chẽ hơn
     if (!/^[0-9]{10}$/.test(phone)) {
       setPhoneError("Số điện thoại phải bao gồm đúng 10 chữ số.");
+      const phoneInput = e.currentTarget.querySelector('input[name="phone"]');
+      (phoneInput as HTMLElement)?.focus();
       return;
     }
 
@@ -63,30 +66,37 @@ function VanDe() {
       let attachmentUrl = "";
       const file = formData.get("attachment") as File;
 
-      // BƯỚC 1: UPLOAD FILE LÊN CLOUDINARY QUA API RIÊNG
-      if (file && file.size > 0) {
-        const uploadFormData = new FormData();
-        uploadFormData.append("file", file);
+      // 2. Kiểm tra file kỹ hơn trước khi upload
+      if (file && file.name && file.size > 0) {
+        try {
+          const uploadFormData = new FormData();
+          uploadFormData.append("file", file);
 
-        const uploadRes = await fetch("/api/upload", {
-          method: "POST",
-          body: uploadFormData,
-        });
+          const uploadRes = await fetch("/api/upload", {
+            method: "POST",
+            body: uploadFormData,
+          });
 
-        if (!uploadRes.ok) throw new Error("Không thể upload ảnh/video");
-        
-        const uploadData = await uploadRes.json();
-        attachmentUrl = uploadData.url; // Lấy URL trả về từ Cloudinary
+          if (uploadRes.ok) {
+            const uploadData = await uploadRes.json();
+            attachmentUrl = uploadData.url;
+          } else {
+            console.error("Upload file thất bại, tiếp tục gửi đơn không có ảnh.");
+          }
+        } catch (uploadErr) {
+          console.error("Lỗi kết nối API Upload:", uploadErr);
+          // Vẫn cho phép chạy tiếp để gửi đơn hàng dù ko có ảnh
+        }
       }
 
-      // BƯỚC 2: GỬI DATA CUỐI CÙNG LÊN MONGODB
+      // 3. Gửi Data cuối cùng
       const payload = {
-        name: formData.get("name"),
+        name: (formData.get("name") as string).trim(),
         phone: phone,
         address: serviceType === "tận nơi" ? formData.get("address") : "Khách mang máy đến cửa hàng",
         serviceType: serviceType,
         desc: formData.get("desc"),
-        attachment: attachmentUrl, // Lưu URL thay vì Base64
+        attachment: attachmentUrl,
         problem: activeProblem.label,
       };
 
@@ -96,12 +106,18 @@ function VanDe() {
         body: JSON.stringify(payload),
       });
 
-      // Sau khi thành công:
+      if (!res.ok) throw new Error("Lỗi lưu đơn hàng");
+
+      // 4. Thành công
       setShowSuccessModal(true);
+      setIsModalOpen(false); // Đóng modal nhập liệu
       (e.target as HTMLFormElement).reset(); 
+      
     } catch (error) {
-      console.error(error);
+      console.error("Lỗi tổng thể:", error);
+      alert("Có lỗi xảy ra khi gửi yêu cầu. Vui lòng thử lại hoặc gọi hotline.");
     } finally {
+      // LUÔN LUÔN mở khóa nút bấm dù thành công hay thất bại
       setIsSubmitting(false);
     }
   };
