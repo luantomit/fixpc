@@ -26,8 +26,8 @@ export default function Header() {
           <a className="text-sm font-semibold hover:text-primary transition-colors text-slate-600 dark:text-slate-300" href="/vi-sao-chon-chung-toi">
             Tại sao chọn chúng tôi
           </a>
-          <a className="text-sm font-semibold hover:text-primary transition-colors text-slate-600 dark:text-slate-300" href="#wards">
-            Khu vực
+          <a className="text-sm font-semibold hover:text-primary transition-colors text-slate-600 dark:text-slate-300" href="/bang-gia">
+            Bảng giá
           </a>
         </nav>
 
