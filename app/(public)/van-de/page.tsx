@@ -4,6 +4,30 @@ import { useState, useRef, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
+// --- CẤU HÌNH SEO FAQ SCHEMA ---
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Sửa máy tính chạy chậm hết bao nhiêu tiền?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dịch vụ vệ sinh máy tính và thay keo tản nhiệt có giá từ 120.000đ. Nâng cấp SSD giúp tăng tốc máy gấp 5-10 lần có giá từ 300.000đ."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Cài Windows tại nhà có đầy đủ Driver không?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dịch vụ cài Win 10/11 Pro của FixPC giá 150.000đ đã bao gồm đầy đủ Driver và các phần mềm văn phòng cơ bản."
+      }
+    }
+  ]
+};
+
 function VanDe() {
   const searchParams = useSearchParams();
   const solutionRef = useRef<HTMLDivElement>(null);
@@ -12,13 +36,14 @@ function VanDe() {
   const [serviceType, setServiceType] = useState("tận nơi");
   const [phoneError, setPhoneError] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  
+  const [selectedId, setSelectedId] = useState("slow");
 
   const problems = [
     {
       id: "slow",
       label: "Máy chạy chậm",
       icon: "speed",
+      description: "Giải pháp tăng tốc máy tính, laptop hiệu quả tức thì.",
       solutions: [
         { title: "Vệ sinh máy tính & Thay keo tản nhiệt", price: "120.000đ", note: "Khuyên dùng 6 tháng/lần", icon: "cleaning_services" },
         { title: "Cài đặt lại Windows & Phần mềm cơ bản", price: "150.000đ", note: "Tối ưu hóa hệ thống sạch sẽ", icon: "fluid_med" },
@@ -26,14 +51,12 @@ function VanDe() {
         { title: "Nâng cấp bộ nhớ RAM", price: "250.000đ", note: "Giúp mở nhiều ứng dụng không giật lag", icon: "memory", isFrom: true },
       ]
     },
-    { id: "power", label: "Không lên nguồn", icon: "power_off", solutions: [{ title: "Sửa nguồn PC", price: "250.000đ", note: "Xử lý lỗi sụt áp", icon: "bolt" }] },
-    { id: "hard_drive", label: "Lỗi ổ cứng", icon: "hard_drive", solutions: [{ title: "Thay SSD mới", price: "450.000đ", note: "Bảo hành 3 năm", icon: "storage" }] },
-    { id: "virus", label: "Nhiễm virus", icon: "coronavirus", solutions: [{ title: "Diệt Virus chuyên sâu", price: "100.000đ", note: "Quét sạch mã độc", icon: "shield" }] },
-    { id: "windows", label: "Cài Windows", icon: "settings_backup_restore", solutions: [{ title: "Cài Win 10/11 Pro", price: "150.000đ", note: "Đầy đủ Driver", icon: "laptop_windows" }] },
-    { id: "other", label: "Lỗi khác", icon: "more_horiz", solutions: [{ title: "Kiểm tra tận nơi", price: "50.000đ", note: "Miễn phí nếu sửa", icon: "support_agent" }] }
+    { id: "power", label: "Không lên nguồn", icon: "power_off", description: "Sửa lỗi nguồn PC, Laptop không kích được nguồn.", solutions: [{ title: "Sửa nguồn PC", price: "250.000đ", note: "Xử lý lỗi sụt áp", icon: "bolt" }] },
+    { id: "hard_drive", label: "Lỗi ổ cứng", icon: "hard_drive", description: "Thay thế và cứu dữ liệu ổ cứng bị hỏng.", solutions: [{ title: "Thay SSD mới", price: "450.000đ", note: "Bảo hành 3 năm", icon: "storage" }] },
+    { id: "virus", label: "Nhiễm virus", icon: "coronavirus", description: "Quét sạch mã độc và bảo mật thông tin.", solutions: [{ title: "Diệt Virus chuyên sâu", price: "100.000đ", note: "Quét sạch mã độc", icon: "shield" }] },
+    { id: "windows", label: "Cài Windows", icon: "settings_backup_restore", description: "Cài đặt Win 10, 11 bản quyền ổn định.", solutions: [{ title: "Cài Win 10/11 Pro", price: "150.000đ", note: "Đầy đủ Driver", icon: "laptop_windows" }] },
+    { id: "other", label: "Lỗi khác", icon: "more_horiz", description: "Hỗ trợ kiểm tra mọi lỗi máy tính tận nơi.", solutions: [{ title: "Kiểm tra tận nơi", price: "50.000đ", note: "Miễn phí nếu sửa", icon: "support_agent" }] }
   ];
-
-  const [selectedId, setSelectedId] = useState("slow");
 
   useEffect(() => {
     const query = searchParams.get("problem");
@@ -45,17 +68,13 @@ function VanDe() {
 
   const activeProblem = problems.find(p => p.id === selectedId) || problems[0];
 
-  // HÀM XỬ LÝ CHÍNH
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const phone = (formData.get("phone") as string).trim(); // Loại bỏ khoảng trắng
+    const phone = (formData.get("phone") as string).trim();
 
-    // 1. Validate SĐT chặt chẽ hơn
     if (!/^[0-9]{10}$/.test(phone)) {
       setPhoneError("Số điện thoại phải bao gồm đúng 10 chữ số.");
-      const phoneInput = e.currentTarget.querySelector('input[name="phone"]');
-      (phoneInput as HTMLElement)?.focus();
       return;
     }
 
@@ -66,30 +85,16 @@ function VanDe() {
       let attachmentUrl = "";
       const file = formData.get("attachment") as File;
 
-      // 2. Kiểm tra file kỹ hơn trước khi upload
       if (file && file.name && file.size > 0) {
-        try {
-          const uploadFormData = new FormData();
-          uploadFormData.append("file", file);
-
-          const uploadRes = await fetch("/api/upload", {
-            method: "POST",
-            body: uploadFormData,
-          });
-
-          if (uploadRes.ok) {
-            const uploadData = await uploadRes.json();
-            attachmentUrl = uploadData.url;
-          } else {
-            console.error("Upload file thất bại, tiếp tục gửi đơn không có ảnh.");
-          }
-        } catch (uploadErr) {
-          console.error("Lỗi kết nối API Upload:", uploadErr);
-          // Vẫn cho phép chạy tiếp để gửi đơn hàng dù ko có ảnh
+        const uploadFormData = new FormData();
+        uploadFormData.append("file", file);
+        const uploadRes = await fetch("/api/upload", { method: "POST", body: uploadFormData });
+        if (uploadRes.ok) {
+          const uploadData = await uploadRes.json();
+          attachmentUrl = uploadData.url;
         }
       }
 
-      // 3. Gửi Data cuối cùng
       const payload = {
         name: (formData.get("name") as string).trim(),
         phone: phone,
@@ -108,35 +113,46 @@ function VanDe() {
 
       if (!res.ok) throw new Error("Lỗi lưu đơn hàng");
 
-      // 4. Thành công
       setShowSuccessModal(true);
-      setIsModalOpen(false); // Đóng modal nhập liệu
+      setIsModalOpen(false);
       (e.target as HTMLFormElement).reset(); 
       
     } catch (error) {
-      console.error("Lỗi tổng thể:", error);
-      alert("Có lỗi xảy ra khi gửi yêu cầu. Vui lòng thử lại hoặc gọi hotline.");
+      alert("Có lỗi xảy ra. Vui lòng thử lại hoặc gọi hotline.");
     } finally {
-      // LUÔN LUÔN mở khóa nút bấm dù thành công hay thất bại
       setIsSubmitting(false);
     }
   };
 
   return (
     <main className="flex-1 bg-slate-50 dark:bg-slate-950 min-h-screen relative">
+      {/* Tối ưu SEO: Chèn Dữ liệu cấu trúc FAQ */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
       <div className="px-4 md:px-40 py-10 flex flex-col items-center text-slate-900 dark:text-white">
         <div className="max-w-[960px] w-full">
-          {/* Grid chọn lỗi */}
-          <div className="mb-8">
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-              <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-white text-xs">1</span>
-              Máy bạn bị làm sao?
-            </h3>
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-3 text-slate-900 dark:text-white">
+          
+          {/* Section 1: Chọn lỗi - Tối ưu tiêu đề H2 cho SEO */}
+          <section className="mb-12">
+            <header className="mb-6">
+              <h1 className="text-3xl md:text-4xl font-black mb-4 text-center">
+                Sửa Chữa <span className="text-primary">Sự Cố Máy Tính</span> Tại Nhà
+              </h1>
+              <h2 className="text-xl font-bold flex items-center gap-2 justify-center md:justify-start">
+                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-white text-xs">1</span>
+                Vấn đề máy tính bạn đang gặp phải?
+              </h2>
+            </header>
+
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
               {problems.map((item) => (
                 <button 
                   key={item.id}
                   onClick={() => setSelectedId(item.id)}
+                  title={`Sửa lỗi ${item.label}`}
                   className={`flex flex-col items-center gap-2 p-3 rounded-2xl border-2 transition-all ${
                     selectedId === item.id 
                     ? "border-primary bg-white dark:bg-slate-800 shadow-lg" 
@@ -152,26 +168,32 @@ function VanDe() {
                 </button>
               ))}
             </div>
-          </div>
+          </section>
 
-          {/* Bảng giải pháp */}
-          <div ref={solutionRef} className="scroll-mt-24 bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-10 shadow-xl border border-slate-100 dark:border-slate-800 mb-10">
-            <h2 className="text-xl md:text-2xl font-bold mb-6">Giải pháp cho: <span className="text-primary">{activeProblem.label}</span></h2>
+          {/* Section 2: Giải pháp - Tối ưu Article cho SEO */}
+          <article ref={solutionRef} className="scroll-mt-24 bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-10 shadow-xl border border-slate-100 dark:border-slate-800 mb-10">
+            <div className="mb-6">
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">Giải pháp sửa <span className="text-primary">{activeProblem.label}</span></h2>
+              <p className="text-slate-500 dark:text-slate-400 text-sm italic">{activeProblem.description}</p>
+            </div>
+
+            
+
             <div className="space-y-3">
               {activeProblem.solutions.map((sol, index) => (
-                <div key={index} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
+                <section key={index} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 hover:border-primary/30 transition-colors">
                   <div className="flex items-center gap-3 text-slate-900 dark:text-white">
                     <span className="material-symbols-outlined text-primary notranslate">{sol.icon}</span>
                     <div>
-                      <p className="text-sm font-bold leading-none mb-1">{sol.title}</p>
+                      <h3 className="text-sm font-bold leading-none mb-1">{sol.title}</h3>
                       <p className="text-[10px] text-slate-400">{sol.note}</p>
                     </div>
                   </div>
                   <p className="text-primary font-black shrink-0">{sol.price}</p>
-                </div>
+                </section>
               ))}
             </div>
-          </div>
+          </article>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md mx-auto">
@@ -184,10 +206,20 @@ function VanDe() {
               Gọi tư vấn
             </a>
           </div>
+
+          {/* Footer nội dung bổ trợ SEO */}
+          <footer className="mt-16 text-center text-slate-400 text-xs max-w-2xl mx-auto space-y-4">
+            <p>FixPC cung cấp dịch vụ cài Win, vệ sinh laptop, nâng cấp máy tính chuyên nghiệp tại Hà Nội. Cam kết linh kiện chính hãng, bảo hành dài hạn.</p>
+            <div className="flex justify-center gap-4 border-t border-slate-200 dark:border-slate-800 pt-4">
+              <span>✓ Phục vụ tận nơi</span>
+              <span>✓ Có mặt sau 15p</span>
+              <span>✓ Hoàn tiền nếu không hài lòng</span>
+            </div>
+          </footer>
         </div>
       </div>
 
-      {/* --- MODAL --- */}
+      {/* --- MODAL ĐẶT LỊCH --- */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-0 md:p-4">
           <div className="absolute inset-0" onClick={() => setIsModalOpen(false)}></div>
@@ -251,53 +283,24 @@ function VanDe() {
                 {isSubmitting ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : "Xác nhận đặt lịch"}
               </button>
             </form>
-            <div className="h-6 md:hidden"></div>
           </div>
         </div>
       )}
+
       {/* MODAL THÔNG BÁO THÀNH CÔNG */}
       {showSuccessModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-[2.5rem] p-8 md:p-12 shadow-2xl border dark:border-slate-800 text-center scale-in-center animate-in zoom-in-95 duration-300">
-            
-            {/* Icon Check động */}
             <div className="mx-auto w-20 h-20 bg-emerald-100 dark:bg-emerald-500/10 rounded-full flex items-center justify-center mb-6">
-              <span className="material-symbols-outlined text-5xl text-emerald-500 font-bold">
-                check_circle
-              </span>
+              <span className="material-symbols-outlined text-5xl text-emerald-500 font-bold">check_circle</span>
             </div>
-
-            <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">
-              Gửi yêu cầu thành công!
-            </h2>
-            
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">Thành công!</h2>
             <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed font-medium">
-              Cảm ơn bạn đã tin tưởng FixPC. <br />
-              Kỹ thuật viên sẽ gọi xác nhận cho bạn trong <span className="text-primary font-bold">15 phút</span> tới.
+              Yêu cầu của bạn đã được gửi. Kỹ thuật viên sẽ gọi lại sau <span className="text-primary font-bold">15 phút</span>.
             </p>
-
             <div className="space-y-3">
-              <button 
-                onClick={() => setShowSuccessModal(false)}
-                className="w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-lg shadow-primary/20 hover:bg-blue-700 transition-all active:scale-95"
-              >
-                Đóng thông báo
-              </button>
-              
-              <Link 
-                href="/"
-                className="block w-full py-4 text-slate-500 dark:text-slate-400 font-bold text-sm hover:text-primary transition-colors"
-              >
-                Quay lại trang chủ
-              </Link>
-            </div>
-
-            {/* Thông tin hỗ trợ nhanh */}
-            <div className="mt-8 pt-6 border-t dark:border-slate-800 flex justify-center gap-4">
-               <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
-                  <span className="material-symbols-outlined text-sm text-primary">bolt</span>
-                  Xử lý siêu tốc
-               </div>
+              <button onClick={() => setShowSuccessModal(false)} className="w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-lg shadow-primary/20 hover:bg-blue-700 transition-all active:scale-95">Đóng</button>
+              <Link href="/" className="block w-full py-4 text-slate-500 dark:text-slate-400 font-bold text-sm hover:text-primary transition-colors">Quay lại trang chủ</Link>
             </div>
           </div>
         </div>
