@@ -80,7 +80,7 @@ export default function DichVu() {
                 Báo giá trước · Không rành máy vẫn yên tâm · Có mặt nhanh sau 20-30 phút gọi.
               </p>
               <div className="flex flex-wrap gap-4">
-                <a href="tel:0987000000" className="flex flex-1 sm:flex-none items-center justify-center gap-3 bg-primary text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-700 shadow-xl shadow-blue-500/20 transition-all">
+                <a href="tel:0355193008" className="flex flex-1 sm:flex-none items-center justify-center gap-3 bg-primary text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-700 shadow-xl shadow-blue-500/20 transition-all">
                   <span className="material-symbols-outlined notranslate">call</span> Gọi ngay
                 </a>
                 <button 
@@ -190,70 +190,70 @@ export default function DichVu() {
 
       {/* 7. MODAL ĐẶT LỊCH */}
       {isModalOpen && (
-  <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-    <div className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-2xl">
-      <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-slate-400 hover:text-primary">
-        <span className="material-symbols-outlined notranslate">close</span>
-      </button>
-      <h3 className="text-2xl font-bold mb-2 text-center">Đặt lịch sửa máy</h3>
-      <p className="text-center text-primary font-bold mb-6 italic underline">{selectedService}</p>
-      
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <input name="name" required placeholder="Họ tên của bạn" className="w-full h-12 px-4 rounded-xl border dark:bg-slate-800 outline-none focus:ring-2 focus:ring-primary" />
-        
-        <input 
-          name="phone" required type="tel" 
-          onChange={() => setPhoneError("")}
-          placeholder="Số điện thoại (10 số)" 
-          className={`w-full h-12 px-4 rounded-xl border dark:bg-slate-800 outline-none focus:ring-2 ${phoneError ? 'border-red-500 focus:ring-red-500' : 'focus:ring-primary'}`} 
-        />
-        {phoneError && <p className="text-red-500 text-xs font-bold">{phoneError}</p>}
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+        <div className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-2xl">
+          <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-slate-400 hover:text-primary">
+            <span className="material-symbols-outlined notranslate">close</span>
+          </button>
+          <h3 className="text-2xl font-bold mb-2 text-center">Đặt lịch sửa máy</h3>
+          <p className="text-center text-primary font-bold mb-6 italic underline">{selectedService}</p>
+          
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <input name="name" required placeholder="Họ tên của bạn" className="w-full h-12 px-4 rounded-xl border dark:bg-slate-800 outline-none focus:ring-2 focus:ring-primary" />
+            
+            <input 
+              name="phone" required type="tel" 
+              onChange={() => setPhoneError("")}
+              placeholder="Số điện thoại (10 số)" 
+              className={`w-full h-12 px-4 rounded-xl border dark:bg-slate-800 outline-none focus:ring-2 ${phoneError ? 'border-red-500 focus:ring-red-500' : 'focus:ring-primary'}`} 
+            />
+            {phoneError && <p className="text-red-500 text-xs font-bold">{phoneError}</p>}
 
-        {/* 1. CHỌN PHƯƠNG THỨC SỬA CHỮA */}
-        <div className="space-y-2">
-          <label className="text-[11px] font-bold text-slate-400 uppercase ml-1">Hình thức sửa chữa</label>
-          <div className="grid grid-cols-2 gap-3">
-            <label className={`flex items-center gap-2 p-3 border rounded-xl cursor-pointer transition-all ${serviceType === 'tận nơi' ? 'border-primary bg-primary/5' : ''}`}>
-              <input 
-                type="radio" name="serviceType" value="tận nơi" 
-                checked={serviceType === "tận nơi"}
-                onChange={(e) => setServiceType(e.target.value)}
-                className="w-4 h-4 text-primary" 
-              />
-              <span className="text-sm font-medium">Tận nơi</span>
-            </label>
-            <label className={`flex items-center gap-2 p-3 border rounded-xl cursor-pointer transition-all ${serviceType === 'tại cửa hàng' ? 'border-primary bg-primary/5' : ''}`}>
-              <input 
-                type="radio" name="serviceType" value="tại cửa hàng" 
-                checked={serviceType === "tại cửa hàng"}
-                onChange={(e) => setServiceType(e.target.value)}
-                className="w-4 h-4 text-primary" 
-              />
-              <span className="text-sm font-medium">Tại cửa hàng</span>
-            </label>
-          </div>
+            {/* 1. CHỌN PHƯƠNG THỨC SỬA CHỮA */}
+            <div className="space-y-2">
+              <label className="text-[11px] font-bold text-slate-400 uppercase ml-1">Hình thức sửa chữa</label>
+              <div className="grid grid-cols-2 gap-3">
+                <label className={`flex items-center gap-2 p-3 border rounded-xl cursor-pointer transition-all ${serviceType === 'tận nơi' ? 'border-primary bg-primary/5' : ''}`}>
+                  <input 
+                    type="radio" name="serviceType" value="tận nơi" 
+                    checked={serviceType === "tận nơi"}
+                    onChange={(e) => setServiceType(e.target.value)}
+                    className="w-4 h-4 text-primary" 
+                  />
+                  <span className="text-sm font-medium">Tận nơi</span>
+                </label>
+                <label className={`flex items-center gap-2 p-3 border rounded-xl cursor-pointer transition-all ${serviceType === 'tại cửa hàng' ? 'border-primary bg-primary/5' : ''}`}>
+                  <input 
+                    type="radio" name="serviceType" value="tại cửa hàng" 
+                    checked={serviceType === "tại cửa hàng"}
+                    onChange={(e) => setServiceType(e.target.value)}
+                    className="w-4 h-4 text-primary" 
+                  />
+                  <span className="text-sm font-medium">Tại cửa hàng</span>
+                </label>
+              </div>
+            </div>
+
+            {/* 2. ẨN/HIỆN ĐỊA CHỈ: Chỉ hiện khi chọn "Tận nơi" */}
+            {serviceType === "tận nơi" && (
+              <div className="space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
+                <label className="text-[11px] font-bold text-slate-400 uppercase ml-1">Địa chỉ của bạn</label>
+                <input 
+                    name="address" 
+                    required={serviceType === "tận nơi"} 
+                    placeholder="Số nhà, tên đường, khu vực..." 
+                    className="w-full h-12 px-4 rounded-xl border dark:bg-slate-800 outline-none focus:ring-2 focus:ring-primary" 
+                  />
+              </div>
+            )}
+
+            <button disabled={isSubmitting} className="w-full h-14 bg-primary text-white rounded-2xl font-bold text-lg disabled:bg-slate-400 shadow-lg mt-2">
+              {isSubmitting ? "Đang gửi..." : "Xác nhận ngay"}
+            </button>
+          </form>
         </div>
-
-        {/* 2. ẨN/HIỆN ĐỊA CHỈ: Chỉ hiện khi chọn "Tận nơi" */}
-        {serviceType === "tận nơi" && (
-          <div className="space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
-             <label className="text-[11px] font-bold text-slate-400 uppercase ml-1">Địa chỉ của bạn</label>
-             <input 
-                name="address" 
-                required={serviceType === "tận nơi"} 
-                placeholder="Số nhà, tên đường, khu vực..." 
-                className="w-full h-12 px-4 rounded-xl border dark:bg-slate-800 outline-none focus:ring-2 focus:ring-primary" 
-              />
-          </div>
-        )}
-
-        <button disabled={isSubmitting} className="w-full h-14 bg-primary text-white rounded-2xl font-bold text-lg disabled:bg-slate-400 shadow-lg mt-2">
-          {isSubmitting ? "Đang gửi..." : "Xác nhận ngay"}
-        </button>
-      </form>
-    </div>
-  </div>
-)}
+      </div>
+    )}
     </main>
   );
 }
