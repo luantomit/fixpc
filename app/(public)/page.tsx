@@ -90,7 +90,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 Báo giá trước · Không rành máy vẫn yên tâm · Có mặt nhanh
               </p>
               <div className="flex flex-wrap gap-4">
-                <a className="flex flex-1 sm:flex-none items-center justify-center gap-3 bg-primary text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-700 shadow-xl shadow-blue-500/20 transition-all" href="tel:0900000000">
+                <a className="flex flex-1 sm:flex-none items-center justify-center gap-3 bg-primary text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-700 shadow-xl shadow-blue-500/20 transition-all" href="tel:0355193008">
                   <span className="material-symbols-outlined notranslate">call</span> Gọi ngay
                 </a>
                 <button 
