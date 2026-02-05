@@ -65,15 +65,15 @@ export async function POST(request: Request) {
       createdAt: new Date(),
     };
 
-    const result = await db.collection("bookings").insertOne(bookingData); //
+    const result = await db.collection("bookings").insertOne(bookingData);
 
-    // 2. GỬI THÔNG BÁO VỀ ĐIỆN THOẠI NGAY LẬP TỨC
-    // Chúng ta không dùng 'await' để tránh làm chậm phản hồi cho khách hàng
-    sendTelegramAlert(bookingData);
+    // BẮT BUỘC dùng await để đảm bảo Server không ngắt tiến trình trước khi gửi xong
+    await sendTelegramAlert(bookingData);
 
-    return NextResponse.json({ success: true }); //
-  } catch (e) {
-    return NextResponse.json({ error: "Lỗi Server" }, { status: 500 }); //
+    return NextResponse.json({ success: true });
+} catch (e) {
+    console.error("Lỗi:", e);
+    return NextResponse.json({ error: "Lỗi Server" }, { status: 500 });
   }
 }
 
